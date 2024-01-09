@@ -1,0 +1,34 @@
+name: forge
+
+on:
+  push:
+    branches: ["master", "develop"]
+  pull_request:
+    branches: ["master", "develop"]
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Build
+        run: |
+          forge --version
+          forge build --sizes
+        id: build
+
+      - name: Run tests
+        run: |
+          forge test -vvv
+        id: test
