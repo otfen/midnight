@@ -14,6 +14,9 @@ interface IPoolFees {
     /// @notice Returns the address of the bonded pool.
     function pool() external returns (address);
 
+    /// @notice Returns the address of the bonded pool's factory.
+    function factory() external returns (address);
+
     /// @notice Returns the address of the first pooled token.
     function token0() external returns (address);
 
