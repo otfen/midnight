@@ -12,22 +12,22 @@ interface IPoolFees {
     event Withdrawal(address indexed recipient, uint256 amount0, uint256 amount1);
 
     /// @notice Returns the address of the bonded pool.
-    function pool() external returns (address);
+    function pool() external view returns (address);
 
     /// @notice Returns the address of the bonded pool's factory.
-    function factory() external returns (address);
+    function factory() external view returns (address);
 
     /// @notice Returns the address of the first pooled token.
-    function token0() external returns (address);
+    function token0() external view returns (address);
 
     /// @notice Returns the address of the second pooled token.
-    function token1() external returns (address);
+    function token1() external view returns (address);
 
     /// @notice Returns the amount of unclaimed protocol fees of the first pooled token.
-    function protocolFees0() external returns (uint256);
+    function protocolFees0() external view returns (uint256);
 
     /// @notice Returns the amount of unclaimed protocol fees of the second pooled token.
-    function protocolFees1() external returns (uint256);
+    function protocolFees1() external view returns (uint256);
 
     /// @notice Claims fees for a specified recipient.
     /// @param recipient The recipient of the fees.
