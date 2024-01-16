@@ -88,8 +88,6 @@ contract PoolTest is Test {
     function testSwap(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero) public {
         address pool = isStable ? stablePool : volatilePool;
         (address tokenToSend, address tokenToReceive) = isZero ? (token0, token1) : (token1, token0);
-        amount0 = bound(amount0, 1e16, 1e24);
-        amount1 = bound(amount1, 1e16, 1e24);
         amountIn = bound(amountIn, 1e16, 1e24);
         testMint(amount0, amount1, isStable);
 
@@ -120,9 +118,8 @@ contract PoolTest is Test {
         Pool(pool).swap(0, 1, address(this), new bytes(0));
     }
 
-    function testSwapInvalidTo(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable) public {
+    function testSwapInvalidTo(uint256 amount0, uint256 amount1, bool isStable) public {
         address pool = isStable ? stablePool : volatilePool;
-        amountIn = bound(amountIn, 1e16, 1e24);
         testMint(amount0, amount1, isStable);
 
         vm.expectRevert(IPool.InvalidTo.selector);
@@ -132,8 +129,6 @@ contract PoolTest is Test {
     function testSwapK(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero) public {
         address pool = isStable ? stablePool : volatilePool;
         address tokenToSend = isZero ? token0 : token1;
-        amount0 = bound(amount0, 1e16, 1e24);
-        amount1 = bound(amount1, 1e16, 1e24);
         amountIn = bound(amountIn, 1e16, 1e24);
         testMint(amount0, amount1, isStable);
 
@@ -179,8 +174,6 @@ contract PoolTest is Test {
         returns (uint256 fees)
     {
         address pool = isStable ? stablePool : volatilePool;
-        amount0 = bound(amount0, 1e16, 1e24);
-        amount1 = bound(amount1, 1e16, 1e24);
         amountIn = bound(amountIn, 1e16, 1e24);
         testSwap(amount0, amount1, amountIn, isStable, isZero);
 
