@@ -185,15 +185,16 @@ contract PoolTest is Test {
 
     function testWithdrawFees(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero) public {
         address pool = isStable ? stablePool : volatilePool;
+        address token = isZero ? token0 : token1;
         testAccrueFees(amount0, amount1, amountIn, isStable, isZero);
 
-        uint256 index = Pool(pool).index0();
-        uint256 initialToken0Balance = IERC20(token0).balanceOf(address(this));
+        uint256 index = isZero ? Pool(pool).index0() : Pool(pool).index1();
+        uint256 initialBalance = IERC20(token).balanceOf(address(this));
         Pool(pool).claim();
 
-        uint256 token0Balance = IERC20(token0).balanceOf(address(this));
-        uint256 userFees = Pool(pool).balanceOf(address(this)) * index / 1e18;
-        assertEq(token0Balance - initialToken0Balance, userFees);
+        uint256 balance = IERC20(token).balanceOf(address(this));
+        uint256 fees = Pool(pool).balanceOf(address(this)) * index / 1e18;
+        assertEq(balance - initialBalance, fees);
     }
 
     function testProtocolFees(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero)
