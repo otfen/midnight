@@ -199,33 +199,30 @@ contract PoolTest is Test {
 
     function testProtocolFees(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero)
         public
-        returns (uint256 protocolFees0, uint256 protocolFees1)
+        returns (uint256 protocolFees)
     {
         address pool = isStable ? stablePool : volatilePool;
         uint256 fees = testAccrueFees(amount0, amount1, amountIn, isStable, isZero);
         address poolFees = Pool(pool).fees();
 
-        protocolFees0 = PoolFees(poolFees).protocolFees0();
-        protocolFees1 = PoolFees(poolFees).protocolFees1();
-        assertEq(isZero ? protocolFees0 : protocolFees1, fees * 12 / 100);
+        protocolFees = isZero ? PoolFees(poolFees).protocolFees0() : PoolFees(poolFees).protocolFees1();
+        assertEq(protocolFees, fees * 12 / 100);
     }
 
     function testWithdrawProtocolFees(uint256 amount0, uint256 amount1, uint256 amountIn, bool isStable, bool isZero)
         public
     {
         address pool = isStable ? stablePool : volatilePool;
-        (uint256 protocolFees0, uint256 protocolFees1) = testProtocolFees(amount0, amount1, amountIn, isStable, isZero);
-
-        uint256 initialBalance0 = IERC20(token0).balanceOf(address(this));
-        uint256 initialBalance1 = IERC20(token1).balanceOf(address(this));
-
+        address token = isZero ? token0 : token1;
+        uint256 protocolFees = testProtocolFees(amount0, amount1, amountIn, isStable, isZero);
+        uint256 initialBalance = IERC20(token).balanceOf(address(this));
         address poolFees = Pool(pool).fees();
-        PoolFees(poolFees).withdrawProtocolFees(address(this), protocolFees0, protocolFees1);
+        
+        isZero
+            ? PoolFees(poolFees).withdrawProtocolFees(address(this), protocolFees, 0)
+            : PoolFees(poolFees).withdrawProtocolFees(address(this), 0, protocolFees);
 
-        uint256 balance0 = IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = IERC20(token1).balanceOf(address(this));
-
-        assertEq(balance0 - initialBalance0, protocolFees0);
-        assertEq(balance1 - initialBalance1, protocolFees1);
+        uint256 balance = IERC20(token).balanceOf(address(this));
+        assertEq(balance - initialBalance, protocolFees);
     }
 }
