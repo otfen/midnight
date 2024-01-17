@@ -5,6 +5,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IERC20, SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {ERC20, ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import {IPool} from "./interfaces/IPool.sol";
@@ -12,7 +13,7 @@ import {IPoolCallee} from "./interfaces/IPoolCallee.sol";
 import {IPoolFactory} from "./interfaces/IPoolFactory.sol";
 import {PoolFees} from "./PoolFees.sol";
 
-contract Pool is IPool, ERC20, ERC20Permit, ReentrancyGuard, Initializable {
+contract Pool is ERC20, ERC20Permit, ReentrancyGuard, Initializable, IPool {
     using SafeERC20 for IERC20;
 
     uint256 internal constant MINIMUM_LIQUIDITY = 10 ** 3;
@@ -417,5 +418,9 @@ contract Pool is IPool, ERC20, ERC20Permit, ReentrancyGuard, Initializable {
         _updateFees(from);
         _updateFees(to);
         super._update(from, to, value);
+    }
+
+    function nonces(address owner) public view override(ERC20Permit, IERC20Permit) returns (uint256) {
+        return super.nonces(owner);
     }
 }
