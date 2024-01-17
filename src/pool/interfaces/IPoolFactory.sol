@@ -61,6 +61,9 @@ interface IPoolFactory {
     /// @param feeTier The fee tier of the pool.
     function getPool(address token0, address token1, bool stable, uint256 feeTier) external view returns (address);
 
+    /// @notice Returns whether the address is a created pool.
+    function isPool(address) external view returns (bool);
+
     /// @notice Returns the number of created pools.
     function poolsLength() external view returns (uint256);
 

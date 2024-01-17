@@ -14,6 +14,7 @@ contract PoolFactory is IPoolFactory, Ownable {
     mapping(uint256 => bool) public isFeeTierApproved;
 
     mapping(address => mapping(address => mapping(bool => mapping(uint256 => address)))) public getPool;
+    mapping(address => bool) public isPool;
     address[] public pools;
 
     constructor(address governor) Ownable(governor) {
@@ -60,6 +61,7 @@ contract PoolFactory is IPoolFactory, Ownable {
         getPool[token0][token1][stable][feeTier] = pool;
         getPool[token1][token0][stable][feeTier] = pool;
         pools.push(pool);
+        isPool[pool] = true;
 
         emit PoolCreated(token0, token1, stable, feeTier, pool, pools.length);
     }
