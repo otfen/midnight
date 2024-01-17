@@ -217,7 +217,7 @@ contract PoolTest is Test {
         uint256 protocolFees = testProtocolFees(amount0, amount1, amountIn, isStable, isZero);
         uint256 initialBalance = IERC20(token).balanceOf(address(this));
         address poolFees = Pool(pool).fees();
-        
+
         isZero
             ? PoolFees(poolFees).withdrawProtocolFees(address(this), protocolFees, 0)
             : PoolFees(poolFees).withdrawProtocolFees(address(this), 0, protocolFees);
