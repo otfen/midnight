@@ -59,6 +59,7 @@ contract Pool is ERC20, ERC20Permit, ReentrancyGuard, Initializable, IPool {
     }
 
     function name() public view override returns (string memory) {
+        if (factory == address(0)) return super.name();
         return string(
             abi.encodePacked(
                 IERC20Metadata(token0).symbol(),
@@ -70,6 +71,7 @@ contract Pool is ERC20, ERC20Permit, ReentrancyGuard, Initializable, IPool {
     }
 
     function symbol() public view override returns (string memory) {
+        if (factory == address(0)) return super.symbol();
         return string(
             abi.encodePacked(
                 stable ? "s" : "v", "AMM-", IERC20Metadata(token0).symbol(), "/", IERC20Metadata(token1).symbol()
