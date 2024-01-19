@@ -13,7 +13,7 @@ contract Midnight is AccessControl, ERC20, ERC20Permit {
         _grantRole(MINTER_ROLE, voter);
     }
 
-    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+    function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
         _mint(to, amount);
     }
 }
