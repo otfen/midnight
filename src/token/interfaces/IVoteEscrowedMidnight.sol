@@ -33,7 +33,8 @@ interface IVoteEscrowedMidnight is IERC20, IERC20Permit {
 
     /// @notice Locks governance tokens.
     /// @param amount The amount of governance tokens to lock.
-    function lock(uint256 amount) external;
+    /// @param to The recipient of the locked governance tokens.
+    function lock(uint256 amount, address to) external;
 
     /// @notice Starts the unlocking period of vote escrowed governance tokens.
     /// @param amount The amount of vote escrowed governance tokens to unlock.
