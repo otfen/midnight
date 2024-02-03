@@ -8,10 +8,18 @@ interface IVoteEscrowedMidnight is IERC20, IERC20Permit {
     /// @notice Thrown when a caller lacks permission to perform an action.
     error Forbidden();
 
+    /// @notice An enum representing the unlock type.
+    enum UnlockType {
+        Transfer,
+        Underlying
+    }
+
     /// @notice A structure representing an unlocking lock.
+    /// @param unlockType The unlock type.
     /// @param value The amount of tokens locked.
     /// @param timestamp The starting timestamp of the unlocking period.
     struct UnlockingLock {
+        UnlockType unlockType;
         uint256 value;
         uint256 timestamp;
     }
@@ -38,7 +46,8 @@ interface IVoteEscrowedMidnight is IERC20, IERC20Permit {
 
     /// @notice Starts the unlocking period of vote escrowed governance tokens.
     /// @param amount The amount of vote escrowed governance tokens to unlock.
-    function unlock(uint256 amount) external;
+    /// @param unlockType The unlock type.
+    function unlock(uint256 amount, UnlockType unlockType) external;
 
     /// @notice Relocks unlocking governance tokens.
     /// @param id The lock identifier.
