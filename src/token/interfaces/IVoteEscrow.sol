@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
-interface IVoteEscrowedMidnight is IERC20, IERC20Permit {
+interface IVoteEscrow is IERC20, IERC20Permit {
     /// @notice Thrown when a caller lacks permission to perform an action.
     error Forbidden();
 
