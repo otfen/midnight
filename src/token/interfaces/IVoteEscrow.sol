@@ -40,9 +40,9 @@ interface IVoteEscrow is IERC20, IERC20Permit {
     function locks(address account) external view returns (uint256[] memory);
 
     /// @notice Locks governance tokens.
-    /// @param amount The amount of governance tokens to lock.
     /// @param to The recipient of the locked governance tokens.
-    function lock(uint256 amount, address to) external;
+    /// @param amount The amount of governance tokens to lock.
+    function lock(address to, uint256 amount) external;
 
     /// @notice Starts the unlocking period of vote escrowed governance tokens.
     /// @param amount The amount of vote escrowed governance tokens to unlock.
