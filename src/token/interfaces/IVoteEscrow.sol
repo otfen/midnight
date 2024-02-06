@@ -27,6 +27,9 @@ interface IVoteEscrow is IERC20, IERC20Permit {
     /// @notice Returns the address of the governance token.
     function midnight() external view returns (address);
 
+    /// @notice Returns the address of the transferable vote escrowed governance token.
+    function transferableVoteEscrowedMidnight() external view returns (address);
+
     /// @notice Returns the voting power of an account.
     /// @param account The account to retrieve the voting power for.
     function weight(address account) external view returns (uint256);
