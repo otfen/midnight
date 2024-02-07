@@ -8,6 +8,9 @@ interface IVoteEscrow is IERC20, IERC20Permit {
     /// @notice Thrown when a caller lacks permission to perform an action.
     error Forbidden();
 
+    /// @notice Thrown when tokens are claimed before the unlock timestamp.
+    error Locked();
+
     /// @notice An enum representing the unlock type.
     enum UnlockType {
         Transfer,
