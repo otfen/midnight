@@ -8,6 +8,9 @@ interface IVoteEscrow is IERC20, IERC20Permit {
     /// @notice Thrown when a caller lacks permission to perform an action.
     error Forbidden();
 
+    /// @notice Thrown when an amount passed is equal to zero.
+    error InvalidAmount();
+
     /// @notice Thrown when tokens are claimed before the unlock timestamp.
     error Locked();
 
